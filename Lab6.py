@@ -3,6 +3,7 @@ from math import *
 from numpy import *
 from scipy.stats import f, t
 from _pydecimal import Decimal
+from datetime import datetime
 
 # ConstLab5.py
 p = 0.95  # Ймовірність для критеріїв
@@ -16,7 +17,7 @@ x3min = 45
 x3max = 50
 xlist = ((x1min, x1max), (x2min, x2max), (x3min, x3max))
 rnd = 3  # Точність округлення
-
+timing = 0 #Час виконання циклів
 
 # Lab4.py
 class lab5():
@@ -59,7 +60,7 @@ class lab5():
                     i[k] = i[k] * (self.xlist[k][1] - self.xlist[k][0]) / 2 + x0[k]
         for i in range(N):
             ylist1 = []
-            for j in range(3):
+            for j in range(m):
                 ylist1.append(round(
                     8.7 + 4.3 * xmatr[i][0] + 1.2 * xmatr[i][1] + 2.2 * xmatr[i][2] + 0.4 * xmatr[i][0] ** 2 + 1.0 *
                     xmatr[i][1] ** 2 + 6.4 * xmatr[i][2] ** 2 + 1.1 * xmatr[i][0] * xmatr[i][1] + 0.1 * xmatr[i][0] *
@@ -397,8 +398,12 @@ t3 = |{3}|/{4} = {8}\n   ".format(*self.alist, self.skoef, *self.tlist))
         print("   За таблицею Fкр =", self.fkr)
 
 
-Task = lab5(p, xlist, rnd)
-Task.equation(N, m)
-Task.cochran(N, m)
-Task.student(N)
-Task.fishers(N)
+for i in range(100):
+    s = datetime.now()
+    Task = lab5(p, xlist, rnd)
+    Task.equation(N, m)
+    Task.cochran(N, m)
+    Task.student(N)
+    Task.fishers(N)
+    timing += float(str(datetime.now() - s)[6:]) # Час виконання  100 циклів
+print("\nСередній час виконання програми:",round(timing/100, 6),"секунди")
